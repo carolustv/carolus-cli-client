@@ -3,8 +3,9 @@
 Quick start:
 
 ```bash
-export CAROLUS_SERVER_URL=http://localhost:8000
+export CAROLUS_SERVER_URL=http://carolus-host:8000
 cargo run --release -- play movie -t '<name of movie>'
+cargo run --release -- play tv -t '<name of movie>' -s 1 -e 1
 ```
 
 ## GStreamer
