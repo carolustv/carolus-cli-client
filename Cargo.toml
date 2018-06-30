@@ -1,7 +1,10 @@
 [package]
-name = "carolus-cli-client"
+name = "carolus-cli"
 version = "0.1.0"
 authors = ["Simon Dickson <simon@simonhdickson.com>"]
 
 [dependencies]
-gstreamer = "0.9.1"
+gstreamer = "0.11"
+clap = "2.31"
+log = "0.4"
+simplelog = "0.5"
