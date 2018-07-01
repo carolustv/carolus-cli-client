@@ -3,61 +3,27 @@ extern crate clap;
 extern crate gstreamer as gst;
 extern crate simplelog;
 
-use clap::{Arg, ArgMatches, App, SubCommand};
+use std::str::FromStr;
+use std::io;
+
+use clap::{ArgMatches, Shell};
 use gst::prelude::*;
 use log::LevelFilter;
 use simplelog::TermLogger;
 
+mod cli;
+
 fn main() {
-    let matches =
-        App::new("carolus-cli")
-            .version("0.1.0")
-            .about("CLI client for Carolus")
-            .author("Simon Dickson")
-            .arg(Arg::with_name("v")
-                .short("v")
-                .multiple(true)
-                .help("Sets the level of verbosity"))
-            .arg(Arg::with_name("host")
-                .short("h")
-                .env("CAROLUS_SERVER_URL")
-                .required(true)
-                .help("The url of the Carolus Server"))
-            .subcommand(SubCommand::with_name("play")
-                .about("plays a video in the player")
-                .subcommand(SubCommand::with_name("movie")
-                    .about("plays a movie")
-                    .arg(Arg::with_name("title")
-                        .short("t")
-                        .required(true)
-                        .takes_value(true)
-                        .help("title of movie to play"))
-                    .arg(Arg::with_name("year")
-                        .short("y")
-                        .takes_value(true)
-                        .help("year of movie to play (only used when there are conflicts)")))
-                .subcommand(SubCommand::with_name("tv")
-                    .about("plays a tv episode")
-                    .arg(Arg::with_name("title")
-                        .short("t")
-                        .required(true)
-                        .takes_value(true)
-                        .help("title of tv show to play"))
-                    .arg(Arg::with_name("series")
-                        .short("s")
-                        .required(true)
-                        .takes_value(true)
-                        .help("series number of tv show to play"))
-                    .arg(Arg::with_name("episode")
-                        .short("e")
-                        .required(true)
-                        .takes_value(true)
-                        .help("episode number of tv show to play"))
-                    .arg(Arg::with_name("year")
-                        .short("y")
-                        .takes_value(true)
-                        .help("year of movie to play (only used when there are conflicts)"))))
-            .get_matches();
+    let matches = cli::build_cli().get_matches();
+
+    match matches.subcommand() {
+        ("completions", Some(matches)) => {
+            let shell = Shell::from_str(matches.value_of("shell").unwrap()).unwrap();
+            cli::build_cli().gen_completions_to("carolus-cli", shell, &mut io::stdout());
+            return;
+            }
+        _ => (),
+    }
 
     init_logging(matches.occurrences_of("v"));
 

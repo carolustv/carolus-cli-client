@@ -8,6 +8,16 @@ cargo run --release -- play movie -t '<name of movie>'
 cargo run --release -- play tv -t '<name of movie>' -s 1 -e 1
 ```
 
+## Completions
+
+Supports completions for multiple shells
+
+Eg. if you have `oh-my-zsh`:
+
+```bash
+carolus-cli completions zsh > ~/.oh-my-zsh/completions/_carolus-cli
+```
+
 ## GStreamer
 
 This program uses GStreamer for the video viewer so you need
