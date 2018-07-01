@@ -1,7 +1,14 @@
 #[macro_use] extern crate log;
+#[macro_use] extern crate serde_derive;
 extern crate clap;
 extern crate gstreamer as gst;
 extern crate simplelog;
+extern crate serde;
+extern crate serde_json;
+extern crate reqwest;
+extern crate url;
+extern crate chrono;
+extern crate failure;
 
 use std::str::FromStr;
 use std::io;
@@ -12,6 +19,7 @@ use log::LevelFilter;
 use simplelog::TermLogger;
 
 mod cli;
+mod the_movie_db;
 
 fn main() {
     let matches = cli::build_cli().get_matches();
@@ -19,7 +27,7 @@ fn main() {
     match matches.subcommand() {
         ("completions", Some(matches)) => {
             let shell = Shell::from_str(matches.value_of("shell").unwrap()).unwrap();
-            cli::build_cli().gen_completions_to("carolus-cli", shell, &mut io::stdout());
+            cli::build_cli().gen_completions_to("carolus", shell, &mut io::stdout());
             return;
             }
         _ => (),

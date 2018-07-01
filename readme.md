@@ -15,7 +15,7 @@ Supports completions for multiple shells
 Eg. if you have `oh-my-zsh`:
 
 ```bash
-carolus-cli completions zsh > ~/.oh-my-zsh/completions/_carolus-cli
+carolus completions zsh > ~/.oh-my-zsh/completions/_carolus
 ```
 
 ## GStreamer
